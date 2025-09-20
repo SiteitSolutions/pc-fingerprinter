@@ -1,0 +1,39 @@
+{
+  "name": "pc-fingerprinter",
+  "version": "1.0.0",
+  "description": "Generate and verify signed hardware fingerprints for custom PC builds.",
+  "license": "MIT",
+  "author": "Cameron Lucas <cameronlucas@siteitsolutions.com>",
+  "type": "commonjs",
+  "bin": {
+    "pc-fingerprinter": "src/index.js"
+  },
+  "files": [
+    "src",
+    "assets",
+    "README.md",
+    "LICENSE",
+    "parts.example.json"
+  ],
+  "keywords": [
+    "cli",
+    "hardware",
+    "fingerprint",
+    "warranty",
+    "pc",
+    "pc builder",
+    "systeminformation",
+    "signature",
+    "digital signature",
+    "nodejs"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "node-machine-id": "^1.1.12",
+    "systeminformation": "^5.25.11",
+    "yargs": "^17.7.2"
+  }
+}

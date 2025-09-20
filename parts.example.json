@@ -1,0 +1,14 @@
+{
+    "parts": [
+        {
+            "item": "GPU",
+            "model": "XFX RX 9060 XT",
+            "serial": "ABC123456"
+        },
+        {
+            "item": "SSD",
+            "model": "WD SN770 1TB",
+            "serial": "SSD987654"
+        }
+    ]
+}

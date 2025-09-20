@@ -1,0 +1,7 @@
+private.pem
+*.key
+*.crt
+dist-tests/
+node_modules/
+.vscode/
+.DS_Store
