@@ -1,5 +1,5 @@
 {
-  "name": "pc-fingerprinter",
+  "name": "@siteit_solutions/pc-fingerprinter",
   "version": "1.0.0",
   "description": "Generate and verify signed hardware fingerprints for custom PC builds.",
   "license": "MIT",
