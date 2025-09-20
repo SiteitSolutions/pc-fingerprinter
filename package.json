@@ -5,6 +5,9 @@
   "license": "MIT",
   "author": "Cameron Lucas <cameronlucas@siteitsolutions.com>",
   "type": "commonjs",
+  "scripts": {
+    "test": "node src/index.js --help"
+  },
   "bin": {
     "pc-fingerprinter": "src/index.js"
   },

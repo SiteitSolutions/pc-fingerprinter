@@ -17,13 +17,13 @@
 
 ## ✨ Features
 
-- 🔑 **Cryptographic Signatures** — fingerprints are signed with your private key, verified using your public key.  
-- 🖥 **Hardware Snapshot** — Captures stable machine info: CPU, motherboard, BIOS, disk serials, MAC addresses, RAM size, OS.  
-- 📑 **Warranty Metadata** — Includes buyer name, purchase date, warranty period & expiry.  
-- 🧩 **Parts List Support** — Include `parts.json` with component serials, if available.  
-- 🗂 **Persistent Storage** — Defaults to system paths (`%PROGRAMDATA%`, `/Library/Application Support`, `/var/lib`).  
-- ⚡ **Simple CLI** — Commands: `create`, `show`, `verify`.  
-- 🌍 **Cross Platform** — Works on Windows, macOS, Linux.  
+- 🔑 **Cryptographic Signatures** — fingerprints are signed with your private key, verified using your public key.
+- 🖥 **Hardware Snapshot** — Captures stable machine info: CPU, motherboard, BIOS, disk serials, MAC addresses, RAM size, OS.
+- 📑 **Warranty Metadata** — Includes buyer name, purchase date, warranty period & expiry.
+- 🧩 **Parts List Support** — Include `parts.json` with component serials, if available.
+- 🗂 **Persistent Storage** — Defaults to system paths (`%PROGRAMDATA%`, `/Library/Application Support`, `/var/lib`).
+- ⚡ **Simple CLI** — Commands: `create`, `show`, `verify`.
+- 🌍 **Cross Platform** — Works on Windows, macOS, Linux.
 
 ---
 
@@ -35,8 +35,6 @@
 npm i -g @siteit_solutions/pc-fingerprinter
 pc-fingerprinter --help
 ```
-
-> If you use **asdf**/**nvm**, ensure your global npm bin is in your `$PATH`.
 
 ### 2) Generate keys
 
@@ -103,11 +101,11 @@ verify options:
 
 ## 📂 Default Paths
 
-| OS      | Fingerprint File Location                                                              |
-|---------|------------------------------------------------------------------------------------------|
-| Windows | `C:\ProgramData\pcfingerprint\fingerprint.json`                                        |
-| macOS   | `/Library/Application Support/pcfingerprint/fingerprint.json`                          |
-| Linux   | `/var/lib/pcfingerprint/fingerprint.json`                                              |
+| OS      | Fingerprint File Location                                     |
+| ------- | ------------------------------------------------------------- |
+| Windows | `C:\ProgramData\pcfingerprint\fingerprint.json`               |
+| macOS   | `/Library/Application Support/pcfingerprint/fingerprint.json` |
+| Linux   | `/var/lib/pcfingerprint/fingerprint.json`                     |
 
 **Default public key location** (if `--pubKey` not provided):
 
@@ -118,57 +116,19 @@ or override via environment variable: PC_FP_PUBLIC_KEY=/path/to/public.pem
 
 ---
 
-## 🏷️ Publishing & Versioning
-
-Since package is already published under `@siteit_solutions/pc-fingerprinter`:
-
-- To update / fix bugs: bump version in `package.json` (patch/minor/major) then:
-  ```bash
-  npm version patch
-  npm publish --access public
-  ```
-
-- For testing locally before publish:
-  ```bash
-  npm pack
-  npm i -g ./@siteit_solutions-pc-fingerprinter-<version>.tgz
-  ```
-
----
-
 ## 🔒 Security & Best Practices
 
-- The fingerprint file is **tamper-evident**, not undeletable. Users with admin/root can still remove it.  
-- Always keep your **private key offline**. Distribute only your public key.  
-- Make sure parts.json (if used) has accurate serials.  
-- Use `--json` mode for scripts or remote verification.  
-
----
-
-## ❗️ Troubleshooting
-
-**`pc-fingerprinter` not found after install**  
-- Check that global npm bin is on `$PATH`.  
-- With npm v10:  
-  ```bash
-  npm prefix -g
-  export PATH="$(npm prefix -g)/bin:$PATH"
-  ```
-
-- If using **asdf**:  
-  ```bash
-  asdf reshim nodejs
-  ```
-
-**Public key not found**  
-- Use `--pubKey /path/to/public.pem` or set env var `PC_FP_PUBLIC_KEY=/path/to/public.pem`.
+- The fingerprint file is **tamper-evident**, not undeletable. Users with admin/root can still remove it.
+- Always keep your **private key offline**. Distribute only your public key.
+- Make sure parts.json (if used) has accurate serials.
+- Use `--json` mode for scripts or remote verification.
 
 ---
 
 ## 🤝 Contributing
 
-1. Open an issue describing an idea or bug.  
-2. Fork the repo & create a feature branch.  
+1. Open an issue describing an idea or bug.
+2. Fork the repo & create a feature branch.
 3. Make changes, run tests/lint, open a pull request.
 
 ---
