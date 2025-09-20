@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/siteit_solutions/pc-fingerprinter/main/logo.png" width="150" alt="PC Fingerprinter Logo"/>
+  <img width="150" alt="image" src="https://github.com/user-attachments/assets/398d0999-6c98-481b-bda0-237f96afb299" />
 </p>
 
 <h1 align="center">@siteit_solutions/PC Fingerprinter CLI</h1>
