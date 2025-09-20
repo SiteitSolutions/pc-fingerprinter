@@ -8,7 +8,7 @@
   🔒 Generate and verify hardware fingerprints for custom PC builds with signed warranty info.
   <br/>
   <br/>
-  <a href="https://www.npmjs.com/package/pc-fingerprint"><img src="https://img.shields.io/npm/v/pc-fingerprint?color=brightgreen&style=flat-square" alt="NPM Version"/></a>
+  <a href="https://www.npmjs.com/package/@your-scope/pc-fingerprint"><img src="https://img.shields.io/npm/v/%40your-scope/pc-fingerprint?color=brightgreen&style=flat-square" alt="NPM Version"/></a>
   <a href="https://github.com/your-org/pc-fingerprint/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/your-org/pc-fingerprint/ci.yml?style=flat-square" alt="CI"/></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT"/></a>
 </p>
@@ -17,133 +17,209 @@
 
 ## ✨ Features
 
-- 🔑 **Cryptographic Signatures** — fingerprints are signed with your private key, tamper-evident with public verification.  
-- 🖥 **Hardware Snapshot** — captures CPU, motherboard, BIOS, disk, network MACs, RAM size, OS info.  
-- 📑 **Warranty Metadata** — store buyer name, purchase date, warranty length, expiration.  
-- 🧩 **Parts List Support** — include detailed `parts.json` with component serials.  
-- 🗂 **Persistent Storage** — fingerprints are written to system-level paths (e.g. `%PROGRAMDATA%` or `/var/lib`).  
-- ⚡ **Simple CLI** — one command to create, one to verify, one to show.  
-- 🌍 **Cross Platform** — works on Windows, macOS, and Linux.  
+- 🔑 **Cryptographic Signatures** — fingerprints are signed with your private key, verified with your public key.
+- 🖥 **Hardware Snapshot** — CPU, board, BIOS, disk serial, MACs, RAM size, OS info.
+- 📑 **Warranty Metadata** — buyer name, purchase date, warranty period + expiry.
+- 🧩 **Parts List Support** — include `parts.json` with component serials.
+- 🗂 **Persistent Storage** — writes to system paths (`%PROGRAMDATA%`, `/Library/Application Support`, `/var/lib`).
+- ⚡ **Simple CLI** — `create`, `show`, `verify` with JSON output option.
+- 🌍 **Cross Platform** — Windows, macOS, Linux.
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Install
+### 1) Install (global CLI)
 
 ```bash
-git clone https://github.com/your-org/pc-fingerprint.git
-cd pc-fingerprint
-npm install
+npm i -g @your-scope/pc-fingerprint
+pc-fingerprint --help
 ```
 
-### 2. Generate RSA Keypair
+> If you use **asdf**/**nvm**, ensure your global npm bin is on PATH (see Troubleshooting).
+
+### 2) Keys
 
 ```bash
-# Private key (keep safe, offline!)
+# Private key (keep safe, OFFLINE)
 openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:4096
 
-# Public key (distribute with app)
+# Public key (distribute with the app / use for verification)
 openssl rsa -pubout -in private.pem -out public.pem
 ```
 
-### 3. Create a Fingerprint
+### 3) Create a fingerprint (on the client PC)
 
 ```bash
-node pc-fingerprint.js create   --buyer "Jane Doe"   --purchase 2025-09-18   --warrantyDays 90   --partsFile ./parts.example.json   --privKey ./private.pem
+pc-fingerprint create   --buyer "Jane Doe"   --purchase 2025-09-18   --warrantyDays 90   --partsFile ./parts.example.json   --privKey /secure/offline/private.pem
 ```
 
-This writes a signed `fingerprint.json` into a system directory (e.g., `C:\ProgramData\pcfingerprint\` on Windows).
-
-### 4. Show Fingerprint
+### 4) Show / Verify
 
 ```bash
-node pc-fingerprint.js show
+pc-fingerprint show
+pc-fingerprint verify --pubKey /path/to/public.pem
 ```
 
-### 5. Verify Fingerprint
-
-```bash
-node pc-fingerprint.js verify
-```
-
-The tool will:
-- Verify the cryptographic signature using `public.pem`
-- Compare saved hardware to current hardware
-- Report mismatches (e.g. swapped parts)
-- Display buyer and warranty info
+Use `--json` to get machine‑readable output.
 
 ---
 
-## 📂 Example Parts File
+## 🧰 CLI Usage (help)
 
-A simple JSON file to track component serials:
+```text
+Usage:
+  pc-fingerprint <command> [options]
+
+Commands:
+  create   Create and sign a fingerprint
+  show     Show fingerprint file contents (no verify)
+  verify   Verify signature and compare current hardware
+
+Global Options:
+  --help      Show help
+  --version   Show version
+  --json      Print machine-readable JSON output (show/verify)
+
+create options:
+  --buyer <string>           Buyer full name (required)
+  --purchase <YYYY-MM-DD>    Purchase date (required)
+  --warrantyDays <number>    Warranty length in days (default: 90)
+  --partsFile <path>         Optional JSON file with parts list/serials
+  --privKey <path>           Path to RSA private key PEM (required)
+  --out <path>               Output path (default: system path)
+
+show options:
+  --path <path>              Path to fingerprint (default: system path)
+  --json                     Print JSON-only
+
+verify options:
+  --path <path>              Path to fingerprint (default: system path)
+  --pubKey <path>            Public key PEM (default: assets/public.pem or $PC_FP_PUBLIC_KEY)
+  --json                     Print JSON summary
+```
+
+---
+
+## 📂 Paths
+
+Fingerprint default location (created on first `create`):
+
+| OS      | Path                                                           |
+|---------|----------------------------------------------------------------|
+| Windows | `C:\ProgramData\pcfingerprint\fingerprint.json`             |
+| macOS   | `/Library/Application Support/pcfingerprint/fingerprint.json`  |
+| Linux   | `/var/lib/pcfingerprint/fingerprint.json`                      |
+
+Public key default (when `--pubKey` not provided):
+
+```
+<package_root>/assets/public.pem
+or override via env: PC_FP_PUBLIC_KEY=/path/to/public.pem
+```
+
+---
+
+## 🏷️ Publishing to npm
+
+### 0) Prep `package.json`
 
 ```json
 {
-  "parts": [
-    { "item": "GPU", "model": "XFX RX 9060 XT", "serial": "GPU123456" },
-    { "item": "SSD", "model": "WD SN770 1TB", "serial": "SSD987654" }
-  ]
+  "name": "@your-scope/pc-fingerprint",
+  "version": "1.0.0",
+  "description": "Generate and verify signed hardware fingerprints for custom PC builds.",
+  "license": "MIT",
+  "bin": { "pc-fingerprint": "src/index.js" },
+  "files": ["src", "assets", "README.md", "LICENSE", "parts.example.json"],
+  "type": "commonjs",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "node-machine-id": "^1.1.12",
+    "systeminformation": "^5.25.11",
+    "yargs": "^17.7.2"
+  }
 }
 ```
 
-See [`parts.example.json`](./parts.example.json) for reference.
+Ensure the CLI has a shebang and is executable:
+```bash
+sed -n '1p' src/index.js   # should show: #!/usr/bin/env node
+chmod +x src/index.js
+```
+
+### 1) Dry-run locally
+```bash
+npm pack                      # creates ./your-scope-pc-fingerprint-1.0.0.tgz
+npm i -g ./your-scope-pc-fingerprint-1.0.0.tgz
+pc-fingerprint --help
+```
+
+### 2) Log in & publish
+```bash
+npm login
+npm publish --access public
+```
+
+### 3) Version bumps
+```bash
+npm version patch    # or minor | major
+git push --follow-tags
+npm publish
+```
+
+> If you use a scoped name (e.g. `@your-scope/...`), you must publish with `--access public`.
 
 ---
 
-## 🛠 Architecture
+## 🧩 Using as a Library (optional)
 
-- **Node.js CLI** — written with `yargs`, `systeminformation`, and `node-machine-id`.  
-- **Fingerprint File** — JSON envelope:
-  ```json
-  {
-    "signer": "YourCompany",
-    "payload": { ...hardware + warranty... },
-    "signature": "base64-signature"
-  }
-  ```
-- **Verification** — payload is canonicalized JSON, signed with SHA256+RSA. Public key included with app.  
+```js
+const { verifyFingerprint } = require('@your-scope/pc-fingerprint'); // if you export helpers later
+```
+
+> This CLI is primarily designed for command‑line use, but the structure allows you to export internal helpers if you choose.
 
 ---
 
 ## 🔒 Security Notes
 
-- The fingerprint file is **tamper-evident**, not tamper-proof. Admins can still delete it.  
-- Always keep your **private key offline**. Only the public key is bundled with the app.  
-- For stronger security, consider server-side storage of fingerprints or TPM integration.  
+- Fingerprints are **tamper‑evident**, not tamper‑proof. Admins can always delete files.
+- Keep your **private key offline**; never publish it or commit it to the repo.
+- Prefer **TLC SSD** for creators (endurance). If you need stronger integrity, consider server‑side copies or TPM‑based sealing.
 
 ---
 
-## 📦 Installation Paths
+## ❗️ Troubleshooting
 
-| OS      | Fingerprint File Location                     |
-|---------|-----------------------------------------------|
-| Windows | `%PROGRAMDATA%\pcfingerprint\fingerprint.json` |
-| macOS   | `/Library/Application Support/pcfingerprint/`  |
-| Linux   | `/var/lib/pcfingerprint/fingerprint.json`      |
+**Command not found after install**
+- You’re likely missing the global npm bin on your `PATH`.
+- On npm v10, find prefix then add `/bin`:
+  ```bash
+  npm prefix -g
+  # e.g. /Users/you/.asdf/installs/nodejs/23.8.0
+  export PATH="$(npm prefix -g)/bin:$PATH"
+  ```
+- For **asdf** users:
+  ```bash
+  asdf reshim nodejs
+  ```
+- Refresh Zsh command cache:
+  ```bash
+  hash -r
+  ```
 
-The CLI can be deleted after setup; the fingerprint file remains for later verification.
-
----
-
-## 🧪 Development
-
-Run lint and tests:
-
-```bash
-npm run lint
-npm test
-```
+**Public key not found**
+- Pass `--pubKey /path/to/public.pem` or set `PC_FP_PUBLIC_KEY=/path/to/public.pem`.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please:
 1. Open an issue describing your idea or bug.
 2. Fork the repo and create a feature branch.
-3. Open a pull request with a clear description.
+3. Run tests / lint, open a PR with a clear description.
 
 ---
 
