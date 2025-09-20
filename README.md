@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="150" alt="image" src="https://github.com/user-attachments/assets/398d0999-6c98-481b-bda0-237f96afb299" />
+  <img width="150" alt="image" src="https://github.com/user-attachments/assets/ef8046a0-caea-4bb3-acfd-ca21592498e5" />
 </p>
 
 <h1 align="center">@siteit_solutions/PC Fingerprinter CLI</h1>
@@ -140,5 +140,5 @@ or override via environment variable: PC_FP_PUBLIC_KEY=/path/to/public.pem
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/siteit_solutions">SiteIT Solutions</a>
+  Made with ❤️ by <a href="https://github.com/SiteItSolutions">SiteIT Solutions</a>
 </p>
