@@ -9,7 +9,7 @@
   <br/>
   <br/>
   <a href="https://www.npmjs.com/package/@siteit_solutions/pc-fingerprinter"><img src="https://img.shields.io/npm/v/@siteit_solutions/pc-fingerprinter?color=brightgreen&style=flat-square" alt="NPM Version"/></a>
-  <a href="https://github.com/siteit_solutions/pc-fingerprinter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/siteit_solutions/pc-fingerprinter/ci.yml?style=flat-square" alt="CI"/></a>
+  <a href="https://github.com/siteit_solutions/pc-fingerprinter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/SiteItSolutions/pc-fingerprinter/ci.yml?style=flat-square" alt="CI"/></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT"/></a>
 </p>
 
