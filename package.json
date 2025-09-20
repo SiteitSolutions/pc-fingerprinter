@@ -1,6 +1,6 @@
 {
   "name": "@siteit_solutions/pc-fingerprinter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generate and verify signed hardware fingerprints for custom PC builds.",
   "license": "MIT",
   "author": "Cameron Lucas <cameronlucas@siteitsolutions.com>",
